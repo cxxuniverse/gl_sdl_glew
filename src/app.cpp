@@ -44,6 +44,21 @@ void App::game_loop()
         {0.5f, -0.5f, 0.0f},
     };
 
+    std::cout << Vertex::get_array_len(vertices) << std::endl;
+
+    unsigned int vertex_buffer;
+    glGenBuffers(1, &vertex_buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
+    glBufferData(GL_ARRAY_BUFFER, Vertex::get_array_size(vertices), vertices, GL_STATIC_DRAW);
+
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, Vertex::num_members<Vertex>, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+                          (void *)offsetof(struct Vertex, x));
+
+    // glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),0);
+
+    std::cout << "vertex_buffer: " << vertex_buffer << "\n";
+
     while (!close)
     {
 
@@ -57,6 +72,9 @@ void App::game_loop()
 
         // clear window (background)
         glClear(GL_COLOR_BUFFER_BIT);
+
+        glDrawArrays(GL_TRIANGLES, 0, Vertex::get_array_len(vertices));
+
         // update window with OpenGL rendering, used for double-buffered frame(buffer)
         SDL_GL_SwapWindow(window);
 
