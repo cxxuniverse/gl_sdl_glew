@@ -30,12 +30,19 @@ void App::create_window(const char *title, int width, int height)
 
     // prints current OpenGL Version (GPU Driver)
     std::cout << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
+
+    // set background clear color
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
 void App::game_loop()
 {
 
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    Vertex vertices[3] = {
+        {-0.5f, -0.5f, 0.0f},
+        {0.0f, 0.5f, 0.0f},
+        {0.5f, -0.5f, 0.0f},
+    };
 
     while (!close)
     {
@@ -48,8 +55,10 @@ void App::game_loop()
                 close = true;
         }
 
-        // clear window
+        // clear window (background)
         glClear(GL_COLOR_BUFFER_BIT);
+        // update window with OpenGL rendering, used for double-buffered frame(buffer)
+        SDL_GL_SwapWindow(window);
 
         /* draw triangle - legacy method (old pipeline):
 
@@ -62,8 +71,5 @@ void App::game_loop()
             glEnd();
 
         end triangle draw */
-
-        // update window with OpenGL rendering, used for double-buffered frame(buffer)
-        SDL_GL_SwapWindow(window);
     }
 }
