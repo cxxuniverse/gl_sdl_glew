@@ -7,6 +7,8 @@
 #include <SDL2/SDL.h>
 #endif
 
+#include <iostream>
+
 struct App
 {
     bool close = false;

@@ -18,10 +18,23 @@ void App::create_window(const char *title, int width, int height)
                               SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
     gl_context = SDL_GL_CreateContext(window);
+
+    // init glew
+    GLenum err = glewInit();
+
+    if (err != GLEW_OK)
+    {
+        std::cerr << "Error: " << glewGetErrorString(err) << std::endl;
+        std::exit(-1);
+    }
+
+    // prints current OpenGL Version (GPU Driver)
+    std::cout << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
 }
 
 void App::game_loop()
 {
+
     while (!close)
     {
 
@@ -37,15 +50,17 @@ void App::game_loop()
         glClearColor(0.7f, 0.2f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // draw triangle - legacy method:
-        glBegin(GL_TRIANGLES);
+        /* draw triangle - legacy method (old pipeline):
 
-        glVertex2f(-0.5f, -0.5f);
-        glVertex2f(0.0f, 0.5f);
-        glVertex2f(0.5f, -0.5f);
+            glBegin(GL_TRIANGLES);
 
-        glEnd();
-        // end triangle draw
+            glVertex2f(-0.5f, -0.5f);
+            glVertex2f(0.0f, 0.5f);
+            glVertex2f(0.5f, -0.5f);
+
+            glEnd();
+
+        end triangle draw */
 
         // update window with OpenGL rendering, used for double-buffered frame(buffer)
         SDL_GL_SwapWindow(window);
