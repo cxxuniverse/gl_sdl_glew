@@ -35,6 +35,22 @@ void App::create_window(const char *title, int width, int height)
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
+template <int N> unsigned int App::full_init_buffers(Vertex (&arr)[N])
+{
+    unsigned int vertex_buffer;
+
+    glGenBuffers(1, &vertex_buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
+    glBufferData(GL_ARRAY_BUFFER, Vertex::get_array_size(arr), arr, GL_STATIC_DRAW);
+
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, Vertex::num_members<Vertex>, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+                          (void *)offsetof(struct Vertex, x));
+    // glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),0);
+
+    return vertex_buffer;
+}
+
 void App::game_loop()
 {
 
@@ -44,18 +60,7 @@ void App::game_loop()
         {0.5f, -0.5f, 0.0f},
     };
 
-    std::cout << Vertex::get_array_len(vertices) << std::endl;
-
-    unsigned int vertex_buffer;
-    glGenBuffers(1, &vertex_buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
-    glBufferData(GL_ARRAY_BUFFER, Vertex::get_array_size(vertices), vertices, GL_STATIC_DRAW);
-
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, Vertex::num_members<Vertex>, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-                          (void *)offsetof(struct Vertex, x));
-
-    // glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),0);
+    unsigned int vertex_buffer = full_init_buffers(vertices);
 
     std::cout << "vertex_buffer: " << vertex_buffer << "\n";
 
@@ -77,17 +82,5 @@ void App::game_loop()
 
         // update window with OpenGL rendering, used for double-buffered frame(buffer)
         SDL_GL_SwapWindow(window);
-
-        /* draw triangle - legacy method (old pipeline):
-
-            glBegin(GL_TRIANGLES);
-
-            glVertex2f(-0.5f, -0.5f);
-            glVertex2f(0.0f, 0.5f);
-            glVertex2f(0.5f, -0.5f);
-
-            glEnd();
-
-        end triangle draw */
     }
 }

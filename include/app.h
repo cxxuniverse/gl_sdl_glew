@@ -24,4 +24,6 @@ struct App
     void create_window(const char *title, int width, int height);
 
     void game_loop();
+
+    template <int N> unsigned int full_init_buffers(Vertex (&arr)[N]);
 };
