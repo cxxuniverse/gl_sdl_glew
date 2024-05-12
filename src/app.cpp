@@ -35,6 +35,8 @@ void App::create_window(const char *title, int width, int height)
 void App::game_loop()
 {
 
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
     while (!close)
     {
 
@@ -46,8 +48,7 @@ void App::game_loop()
                 close = true;
         }
 
-        // clear the window
-        glClearColor(0.7f, 0.2f, 0.2f, 1.0f);
+        // clear window
         glClear(GL_COLOR_BUFFER_BIT);
 
         /* draw triangle - legacy method (old pipeline):

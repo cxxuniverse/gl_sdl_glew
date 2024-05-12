@@ -1,3 +1,7 @@
+#pragma once
+
+#include "vertex.h"
+
 #include "./GL/glew.h"
 #define SDL_MAIN_HANDLED
 
