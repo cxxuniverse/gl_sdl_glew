@@ -37,6 +37,7 @@ void App::game_loop()
         glClearColor(0.7f, 0.2f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        // draw triangle - legacy method:
         glBegin(GL_TRIANGLES);
 
         glVertex2f(-0.5f, -0.5f);
@@ -44,6 +45,7 @@ void App::game_loop()
         glVertex2f(0.5f, -0.5f);
 
         glEnd();
+        // end triangle draw
 
         // update window with OpenGL rendering, used for double-buffered frame(buffer)
         SDL_GL_SwapWindow(window);
