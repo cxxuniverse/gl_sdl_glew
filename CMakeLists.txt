@@ -20,14 +20,17 @@ add_library(app STATIC src/app.cpp)
 target_include_directories(app PRIVATE include)
 set_target_properties(app PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
-# create exec
+# create executable
 add_executable(main src/main.cpp)
 set_target_properties(main PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
+
+# executable flags
+target_compile_features(app PRIVATE cxx_std_20)
+target_compile_options(app PRIVATE -g -Wall -Werror)
+
 
 # link libs
 target_link_libraries(main app)
 target_link_libraries(main ${SDL2_LIBRARIES})
 target_link_libraries(main OpenGL::GL)
 target_link_libraries(main ${CMAKE_CURRENT_SOURCE_DIR}/lib/libGLEW.a)
-
-target_compile_features(app PRIVATE cxx_std_20)
