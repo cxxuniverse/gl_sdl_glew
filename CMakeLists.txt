@@ -17,7 +17,7 @@ find_package(OpenGL REQUIRED)
 
 # create app lib
 add_library(app STATIC src/app.cpp)
-target_include_directories(app PUBLIC include)
+target_include_directories(app PRIVATE include)
 set_target_properties(app PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 # create exec
@@ -29,3 +29,5 @@ target_link_libraries(main app)
 target_link_libraries(main ${SDL2_LIBRARIES})
 target_link_libraries(main OpenGL::GL)
 target_link_libraries(main ${CMAKE_CURRENT_SOURCE_DIR}/lib/libGLEW.a)
+
+target_compile_features(app PRIVATE cxx_std_20)
